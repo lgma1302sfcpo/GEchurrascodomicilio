@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
-import { ArrowDown, ArrowRight, ChevronLeft, ChevronRight, Flame, Instagram, Menu, MessageCircle, ShieldCheck, Sparkles, X } from "lucide-react";
+import { ArrowDown, ArrowRight, ChevronLeft, ChevronRight, Flame, Instagram, Menu, ShieldCheck, Sparkles, X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -51,11 +51,18 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="eyebrow"><span />{children}</p>;
 }
 
-function Brand() {
+function WhatsAppIcon({ size = 24, className = "" }: { size?: number; className?: string }) {
   return (
-    <a href="#inicio" className="brand" aria-label="G&E início">
-      <span className="brand-main">G<span>&</span>E</span>
-      <span className="brand-sub">CHURRASCO A DOMICÍLIO</span>
+    <svg className={className} width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93a7.9 7.9 0 0 0-2.327-5.607M7.994 14.521a6.57 6.57 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.25a6.56 6.56 0 0 1-1.007-3.505c0-3.652 2.972-6.625 6.631-6.625a6.59 6.59 0 0 1 4.686 1.944 6.58 6.58 0 0 1 1.94 4.69c-.004 3.655-2.976 6.629-6.67 6.629m3.639-4.95c-.197-.098-1.177-.58-1.36-.646-.182-.065-.315-.098-.447.099-.133.197-.513.646-.63.775-.116.13-.232.145-.43.049-.197-.099-.836-.308-1.592-.984-.59-.525-.986-1.174-1.101-1.372-.116-.197-.012-.304.086-.401.088-.088.197-.232.296-.348.098-.116.132-.197.197-.33.066-.132.033-.248-.016-.347-.05-.099-.448-1.077-.612-1.474-.16-.388-.323-.335-.447-.341l-.38-.007a.73.73 0 0 0-.528.248c-.182.198-.694.678-.694 1.654s.71 1.916.81 2.049c.098.132 1.394 2.13 3.38 2.988.473.204.842.326 1.13.417.475.151.907.13 1.249.079.38-.057 1.176-.481 1.342-.946.164-.465.164-.864.115-.946-.049-.082-.182-.132-.38-.23" />
+    </svg>
+  );
+}
+
+function Brand({ full = false }: { full?: boolean }) {
+  return (
+    <a href="#inicio" className={`brand${full ? " brand-full" : ""}`} aria-label="G&E Churrasco a Domicílio — início">
+      <Image src="/images/logo-ge-dark.png" alt="G&E Churrasco a Domicílio" width={1536} height={1536} priority={!full} />
     </a>
   );
 }
@@ -208,17 +215,17 @@ function InstagramSection() {
 }
 
 function FinalCTA() {
-  return <section className="final-cta"><Image src={photos.event} alt="Celebração com churrasco G&E" fill sizes="100vw" style={{ objectPosition: "50% 52%" }} /><div className="final-shade" /><div><Eyebrow>O PRÓXIMO É O SEU</Eyebrow><h2>Vai ter festa?</h2><p>Deixa o churrasco com a gente.</p><motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: .98 }} className="button button-fire button-large" href={whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={20} /> Pedir orçamento no WhatsApp</motion.a></div></section>;
+  return <section className="final-cta"><Image src={photos.event} alt="Celebração com churrasco G&E" fill sizes="100vw" style={{ objectPosition: "50% 52%" }} /><div className="final-shade" /><div><Eyebrow>O PRÓXIMO É O SEU</Eyebrow><h2>Vai ter festa?</h2><p>Deixa o churrasco com a gente.</p><motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: .98 }} className="button button-fire button-large" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon size={21} /> Pedir orçamento no WhatsApp</motion.a></div></section>;
 }
 
 function FloatingWhatsApp() {
   const [show, setShow] = useState(false);
   useEffect(() => { const t = setTimeout(() => setShow(true), 3500); return () => clearTimeout(t); }, []);
-  return <div className="floating-whatsapp"><AnimatePresence>{show && <motion.span initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>Vai fazer um evento?</motion.span>}</AnimatePresence><motion.a whileHover={{ scale: 1.08 }} href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Pedir orçamento no WhatsApp"><MessageCircle /></motion.a></div>;
+  return <div className="floating-whatsapp"><AnimatePresence>{show && <motion.span initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>Vai fazer um evento?</motion.span>}</AnimatePresence><motion.a className="whatsapp-trigger" whileHover={{ scale: 1.1 }} whileTap={{ scale: .94 }} href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Pedir orçamento no WhatsApp"><WhatsAppIcon size={29} className="whatsapp-mark" /></motion.a></div>;
 }
 
 function Footer() {
-  return <footer className="footer container"><Brand /><span>Fogo aceso. Festa pronta.</span><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer"><Instagram size={18} /> @gechurrascodomicilio</a><small>© {new Date().getFullYear()} G&E Churrasco a Domicílio</small></footer>;
+  return <footer className="footer container"><Brand full /><span>Fogo aceso. Festa pronta.</span><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer"><Instagram size={18} /> @gechurrascodomicilio</a><small>© {new Date().getFullYear()} G&E Churrasco a Domicílio</small></footer>;
 }
 
 export default function Home() {
