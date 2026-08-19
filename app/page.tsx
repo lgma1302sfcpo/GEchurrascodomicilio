@@ -19,32 +19,47 @@ const photos = {
   event: "/images/event-night.png",
   craft: "/images/craft-cut.png",
   table: "/images/table-spread.png",
+  grillEvent: "/images/real-grill-event.jpeg",
+  grillTeam: "/images/real-grill-team.jpeg",
+  serviceTeam: "/images/real-service-team.jpeg",
+  buffetChef: "/images/real-buffet-chef.jpeg",
+  premiumCuts: "/images/real-premium-cuts.jpeg",
+  chefRoast: "/images/real-chef-roast.jpeg",
+  buffetStructure: "/images/real-buffet-structure.jpeg",
+  teamBuffet: "/images/real-team-buffet.jpeg",
+  coffeeBreak: "/images/real-coffee-break.jpeg",
+  fireRoast: "/images/real-fire-roast.jpeg",
+  buffetSalads: "/images/real-buffet-salads.jpeg",
+  saladTable: "/images/real-salad-table.jpeg",
+  chefPortrait: "/images/real-chef-portrait.jpeg",
+  eventOperation: "/images/real-event-operation.jpeg",
+  rawBeef: "/images/real-raw-beef.jpeg",
 };
 
 const services = [
-  ["Aniversários", photos.event, "50% 50%"],
-  ["Festas", photos.table, "50% 55%"],
-  ["Confraternizações", photos.fire, "65% 50%"],
-  ["Eventos corporativos", photos.event, "80% 50%"],
-  ["Casamentos", photos.table, "30% 50%"],
-  ["Eventos particulares", photos.craft, "50% 45%"],
+  ["Aniversários", photos.teamBuffet, "50% 42%"],
+  ["Festas", photos.buffetChef, "52% 54%"],
+  ["Confraternizações", photos.grillEvent, "50% 48%"],
+  ["Eventos corporativos", photos.coffeeBreak, "50% 52%"],
+  ["Casamentos", photos.buffetSalads, "50% 62%"],
+  ["Eventos particulares", photos.chefRoast, "50% 50%"],
 ];
 
 const story = [
-  ["Acende.", photos.fire],
-  ["Prepara.", photos.craft],
-  ["Serve.", photos.table],
-  ["Comemora.", photos.event],
+  ["Acende.", photos.fireRoast, "50% 64%"],
+  ["Prepara.", photos.chefRoast, "50% 48%"],
+  ["Serve.", photos.buffetStructure, "50% 57%"],
+  ["Comemora.", photos.serviceTeam, "50% 35%"],
 ];
 
 const gallery = [
-  [photos.fire, "A brasa", "gallery-tall", "62% 50%"],
-  [photos.event, "O evento", "gallery-wide", "48% 50%"],
-  [photos.craft, "O corte", "gallery-square", "50% 42%"],
-  [photos.table, "À mesa", "gallery-tall", "50% 50%"],
-  [photos.event, "A celebração", "gallery-square", "78% 50%"],
+  [photos.fireRoast, "A brasa", "gallery-tall", "50% 62%"],
+  [photos.grillEvent, "O evento", "gallery-wide", "50% 48%"],
+  [photos.rawBeef, "O corte", "gallery-square", "50% 62%"],
+  [photos.buffetStructure, "À mesa", "gallery-tall", "50% 56%"],
+  [photos.serviceTeam, "A celebração", "gallery-square", "50% 38%"],
   [photos.fire, "O fogo", "gallery-wide", "35% 65%"],
-  [photos.table, "Os detalhes", "gallery-square", "20% 55%"],
+  [photos.saladTable, "Os detalhes", "gallery-square", "50% 58%"],
 ];
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -158,7 +173,15 @@ function CinematicStory() {
   return (
     <section className="story" aria-label="Da brasa à celebração">
       <div className="story-sticky">
-        {story.map(([word, src], i) => <div className={`story-frame frame-${i}`} key={word}><Image src={src} alt="" fill sizes="100vw" style={{ objectPosition: i === 3 ? "55% 50%" : "50% 50%" }} /><div /></div>)}
+        {story.map(([word, src, pos], i) => (
+          <div className={`story-frame frame-${i}`} key={word}>
+            <Image className="story-backdrop" src={src} alt="" fill sizes="100vw" style={{ objectPosition: pos }} />
+            <div className="story-focus">
+              <Image className="story-subject" src={src} alt="" fill sizes="(max-width: 800px) 100vw, 760px" style={{ objectPosition: pos }} />
+            </div>
+            <div className="story-vignette" />
+          </div>
+        ))}
         <div className="story-copy">{story.map(([word], i) => <h2 className={`story-word word-${i}`} key={word}>{word}</h2>)}</div>
         <div className="story-side">O RITUAL<br /><span>G&E</span></div>
         <div className="story-progress"><i /></div>
@@ -210,7 +233,7 @@ function Testimonials() {
 }
 
 function InstagramSection() {
-  const tiles = [[photos.event, "50% 50%"], [photos.craft, "50% 45%"], [photos.fire, "70% 60%"], [photos.table, "52% 55%"], [photos.event, "85% 50%"], [photos.fire, "35% 50%"]];
+  const tiles = [[photos.grillTeam, "50% 42%"], [photos.premiumCuts, "50% 58%"], [photos.chefPortrait, "50% 40%"], [photos.eventOperation, "50% 40%"], [photos.buffetSalads, "50% 62%"], [photos.chefRoast, "50% 50%"]];
   return <section className="section instagram-section container"><div className="instagram-head"><div><Eyebrow>SIGA A BRASA</Eyebrow><h2>Acontecendo<br /><em>por aí.</em></h2></div><div><Instagram size={20} /><span>@gechurrascodomicilio</span></div></div><div className="instagram-grid">{tiles.map(([src, pos], i) => <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" key={i}><Image src={src} alt="Evento G&E" fill sizes="(max-width: 700px) 50vw, 17vw" style={{ objectPosition: pos }} /><span><Instagram /></span></a>)}</div><a className="instagram-link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Ver Instagram <ArrowRight size={18} /></a></section>;
 }
 
