@@ -9,7 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
-const WHATSAPP_PHONE = "5511953410076";
+const WHATSAPP_PHONE = "5513997302538";
 const INSTAGRAM_URL = "https://instagram.com/gechurrascodomicilio";
 const MESSAGE = "Olá! Vi o trabalho de vocês e gostaria de pedir um orçamento para meu evento.";
 const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(MESSAGE)}`;
@@ -27,6 +27,7 @@ const photos = {
   chefRoast: "/images/real-chef-roast.jpeg",
   buffetStructure: "/images/real-buffet-structure.jpeg",
   teamBuffet: "/images/real-team-buffet.jpeg",
+  birthdayBuffet: "/images/birthday-whatsapp-2026-09-04.jpeg",
   coffeeBreak: "/images/real-coffee-break.jpeg",
   fireRoast: "/images/real-fire-roast.jpeg",
   buffetSalads: "/images/real-buffet-salads.jpeg",
@@ -37,7 +38,7 @@ const photos = {
 };
 
 const services = [
-  ["Aniversários", photos.teamBuffet, "50% 42%"],
+  ["Aniversários", photos.birthdayBuffet, "50% 24%"],
   ["Festas", photos.buffetChef, "52% 54%"],
   ["Confraternizações", photos.grillEvent, "50% 48%"],
   ["Eventos corporativos", photos.coffeeBreak, "50% 52%"],
