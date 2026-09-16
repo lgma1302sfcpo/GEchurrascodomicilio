@@ -38,12 +38,12 @@ const photos = {
 };
 
 const services = [
-  ["Aniversários", photos.birthdayBuffet, "50% 24%"],
-  ["Festas", photos.buffetChef, "52% 54%"],
-  ["Confraternizações", photos.grillEvent, "50% 48%"],
-  ["Eventos corporativos", photos.coffeeBreak, "50% 52%"],
-  ["Casamentos", photos.buffetSalads, "50% 62%"],
-  ["Eventos particulares", photos.chefRoast, "50% 50%"],
+  ["Aniversários", photos.birthdayBuffet, "50% 24%", "Churrasco a domicílio servido em festa de aniversário em Santos"],
+  ["Festas", photos.buffetChef, "52% 54%", "Chef preparando buffet de churrasco a domicílio para festa em Santos"],
+  ["Confraternizações", photos.grillEvent, "50% 48%", "Churrasco a domicílio em confraternização de empresa na Baixada Santista"],
+  ["Eventos corporativos", photos.coffeeBreak, "50% 52%", "Coffee break e churrasco a domicílio para evento corporativo em Santos"],
+  ["Casamentos", photos.buffetSalads, "50% 62%", "Buffet de saladas e acompanhamentos para casamento com churrasco a domicílio"],
+  ["Eventos particulares", photos.chefRoast, "50% 50%", "Churrasqueiro preparando carne na brasa em evento particular em Santos"],
 ];
 
 const story = [
@@ -85,7 +85,7 @@ function Brand({ full = false }: { full?: boolean }) {
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const links = [["Experiência", "#experiencia"], ["Eventos", "#servicos"], ["Galeria", "#galeria"]];
+  const links = [["Experiência", "#experiencia"], ["Eventos", "#servicos"], ["Galeria", "#galeria"], ["Regiões", "#regioes"], ["Dúvidas", "#duvidas"]];
   return (
     <motion.header initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: .9, delay: .25 }} className="header">
       <Brand />
@@ -116,8 +116,8 @@ function Hero() {
       <div className="embers" aria-hidden="true">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ "--i": i } as React.CSSProperties} />)}</div>
       <div className="hero-content container">
         <div className="hero-kicker"><span /> Churrasco a domicílio</div>
-        <h1 aria-label="O churrasco vai até você.">{["O", "churrasco", "vai", "até", "você."].map((word, i) => <span className="hero-word-wrap" key={word}><motion.span initial={{ y: "115%" }} animate={{ y: 0 }} transition={{ duration: .9, delay: .38 + i * .08, ease: [0.16, 1, 0.3, 1] }}>{word}</motion.span></span>)}</h1>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.08 }}>Festas. Eventos. Bons momentos.</motion.p>
+        <h1 aria-label="Churrasco a domicílio em Santos e região.">{["Churrasco", "a", "domicílio", "em", "Santos", "e", "região."].map((word, i) => <span className="hero-word-wrap" key={word}><motion.span initial={{ y: "115%" }} animate={{ y: 0 }} transition={{ duration: .9, delay: .38 + i * .08, ease: [0.16, 1, 0.3, 1] }}>{word}</motion.span></span>)}</h1>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.08 }}>Churrasco completo para aniversários, casamentos, confraternizações e eventos corporativos, preparado na brasa direto no local do seu evento em Santos e Baixada Santista.</motion.p>
         <motion.div className="hero-actions" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.22 }}>
           <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: .98 }} className="button button-fire" href={whatsappUrl} target="_blank" rel="noreferrer">Quero um orçamento <ArrowRight size={18} /></motion.a>
           <a className="text-link" href="#galeria">Ver nosso trabalho <ArrowDown size={16} /></a>
@@ -144,10 +144,10 @@ function Services() {
     <section id="servicos" className="section services container">
       <div className="section-heading"><div><Eyebrow>DO SEU JEITO</Eyebrow><h2>Seu evento.<br /><em>Nossa brasa.</em></h2></div><p>Do encontro íntimo<br />à grande celebração.</p></div>
       <div className="service-grid">
-        {services.map(([title, src, pos], i) => (
+        {services.map(([title, src, pos, alt], i) => (
           <motion.article className="service-card reveal-card" whileHover="hover" key={title}>
             <motion.div className="service-media" variants={{ hover: { scale: 1.06 } }} transition={{ duration: .7 }}>
-              <Image src={src} alt={title} fill sizes="(max-width: 700px) 100vw, 33vw" style={{ objectPosition: pos }} />
+              <Image src={src} alt={alt} fill sizes="(max-width: 700px) 100vw, 33vw" style={{ objectPosition: pos }} />
             </motion.div>
             <div className="service-overlay" />
             <span className="service-number">0{i + 1}</span>
@@ -166,6 +166,59 @@ function Differentials() {
     <section className="section differences container">
       <div className="difference-title"><Eyebrow>SIMPLES ASSIM</Eyebrow><h2>Você chama.<br /><em>A gente leva.</em></h2></div>
       <div className="difference-list">{items.map(([Icon, title, text], i) => <div className="difference-item" key={title as string}><span className="diff-num">0{i + 1}</span><Icon size={31} strokeWidth={1.35} /><div><h3>{title as string}</h3><p>{text as string}</p></div></div>)}</div>
+    </section>
+  );
+}
+
+const REGION_CITIES = ["Santos", "São Vicente", "Guarujá", "Cubatão", "Praia Grande", "Mongaguá", "Itanhaém", "Peruíbe", "Bertioga"];
+
+function Regions() {
+  return (
+    <section id="regioes" className="section regions container">
+      <div className="section-heading">
+        <div><Eyebrow>ONDE ESTAMOS</Eyebrow><h2>Regiões<br /><em>atendidas.</em></h2></div>
+        <p>Churrasco a domicílio<br />perto de você.</p>
+      </div>
+      <p className="regions-text">
+        Atendemos toda a <strong>Baixada Santista</strong> com churrasco a domicílio para aniversários,
+        casamentos, confraternizações, eventos corporativos e festas particulares.
+      </p>
+      <ul className="region-chips">
+        {REGION_CITIES.map((city) => <li key={city}>{city}</li>)}
+      </ul>
+      <a className="text-link" href={whatsappUrl} target="_blank" rel="noreferrer">Consultar disponibilidade na minha cidade <ArrowRight size={16} /></a>
+    </section>
+  );
+}
+
+function FAQ() {
+  const message = (text: string) => `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`;
+  // TODO(SEO): perguntas sobre número mínimo de convidados, prazo de antecedência
+  // para reserva, preço/orçamento e itens exatos inclusos (equipamentos,
+  // acompanhamentos específicos) ainda dependem de confirmação do cliente e
+  // foram deixadas de fora para não inventar respostas.
+  const faqs = [
+    ["Como funciona o churrasco a domicílio?", "Nossa equipe se desloca até o local do seu evento — casa, salão de festas ou condomínio — e prepara o churrasco na brasa, ao vivo, durante a festa."],
+    ["Quais tipos de eventos vocês atendem?", "Atendemos aniversários, casamentos, confraternizações, eventos corporativos e festas particulares."],
+    ["Vocês atendem condomínios e salões de festas?", "Sim, preparamos o churrasco no local do evento, seja em casa, condomínio ou salão de festas."],
+    ["Quais regiões vocês atendem?", `Atendemos toda a Baixada Santista: ${REGION_CITIES.join(", ")}.`],
+    ["Como faço para solicitar um orçamento?", "Chame a gente no WhatsApp contando a data, o local e o número aproximado de convidados do seu evento."],
+  ];
+  return (
+    <section id="duvidas" className="section faq container">
+      <div className="section-heading">
+        <div><Eyebrow>DÚVIDAS FREQUENTES</Eyebrow><h2>Perguntas<br /><em>e respostas.</em></h2></div>
+        <p>Tudo o que você<br />precisa saber.</p>
+      </div>
+      <div className="faq-list">
+        {faqs.map(([q, a]) => (
+          <details className="faq-item" key={q}>
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+      <a className="text-link" href={message("Olá! Fiquei com uma dúvida sobre o churrasco a domicílio e gostaria de conversar com vocês.")} target="_blank" rel="noreferrer">Tirar dúvida pelo WhatsApp <ArrowRight size={16} /></a>
     </section>
   );
 }
@@ -234,8 +287,15 @@ function Testimonials() {
 }
 
 function InstagramSection() {
-  const tiles = [[photos.grillTeam, "50% 42%"], [photos.premiumCuts, "50% 58%"], [photos.chefPortrait, "50% 40%"], [photos.eventOperation, "50% 40%"], [photos.buffetSalads, "50% 62%"], [photos.chefRoast, "50% 50%"]];
-  return <section className="section instagram-section container"><div className="instagram-head"><div><Eyebrow>SIGA A BRASA</Eyebrow><h2>Acontecendo<br /><em>por aí.</em></h2></div><div><Instagram size={20} /><span>@gechurrascodomicilio</span></div></div><div className="instagram-grid">{tiles.map(([src, pos], i) => <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" key={i}><Image src={src} alt="Evento G&E" fill sizes="(max-width: 700px) 50vw, 17vw" style={{ objectPosition: pos }} /><span><Instagram /></span></a>)}</div><a className="instagram-link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Ver Instagram <ArrowRight size={18} /></a></section>;
+  const tiles = [
+    [photos.grillTeam, "50% 42%", "Equipe de churrasqueiros preparando evento em Santos"],
+    [photos.premiumCuts, "50% 58%", "Cortes de carne selecionados para churrasco a domicílio"],
+    [photos.chefPortrait, "50% 40%", "Churrasqueiro profissional da G&E durante evento"],
+    [photos.eventOperation, "50% 40%", "Operação de churrasco a domicílio em festa na Baixada Santista"],
+    [photos.buffetSalads, "50% 62%", "Mesa de saladas e acompanhamentos do buffet de churrasco"],
+    [photos.chefRoast, "50% 50%", "Carne assando na brasa durante evento G&E"],
+  ];
+  return <section className="section instagram-section container"><div className="instagram-head"><div><Eyebrow>SIGA A BRASA</Eyebrow><h2>Acontecendo<br /><em>por aí.</em></h2></div><div><Instagram size={20} /><span>@gechurrascodomicilio</span></div></div><div className="instagram-grid">{tiles.map(([src, pos, alt], i) => <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" key={i}><Image src={src} alt={alt} fill sizes="(max-width: 700px) 50vw, 17vw" style={{ objectPosition: pos }} /><span><Instagram /></span></a>)}</div><a className="instagram-link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Ver mais eventos no Instagram <ArrowRight size={18} /></a></section>;
 }
 
 function FinalCTA() {
@@ -280,5 +340,5 @@ export default function Home() {
     }, root);
     return () => { ctx.revert(); cancelAnimationFrame(rafId); lenis.destroy(); };
   }, []);
-  return <main ref={root}><Header /><Hero /><Impact /><Services /><Differentials /><CinematicStory /><Gallery /><Numbers /><Testimonials /><InstagramSection /><FinalCTA /><Footer /><FloatingWhatsApp /></main>;
+  return <main ref={root}><Header /><Hero /><Impact /><Services /><Differentials /><Regions /><CinematicStory /><Gallery /><Numbers /><Testimonials /><InstagramSection /><FAQ /><FinalCTA /><Footer /><FloatingWhatsApp /></main>;
 }

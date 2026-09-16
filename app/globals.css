@@ -93,6 +93,22 @@ h2 em { color:var(--ember); font-weight:500; }
 .difference-item h3 { font-family:var(--font-display); margin:0 0 4px; font-size:30px; font-weight:600; }
 .difference-item p { margin:0; color:var(--muted); font-size:12px; }
 
+/* Regions */
+.regions-text { max-width:760px; margin:0 0 30px; color:var(--muted); font-size:15px; line-height:1.85; }
+.regions-text strong { color:var(--paper); font-weight:600; }
+.region-chips { display:flex; flex-wrap:wrap; gap:12px; margin:0 0 40px; padding:0; list-style:none; }
+.region-chips li { padding:10px 20px; border:1px solid rgba(255,255,255,.2); font-size:12px; letter-spacing:.04em; }
+
+/* FAQ */
+.faq-list { max-width:860px; border-top:1px solid rgba(255,255,255,.16); }
+.faq-item { padding:26px 0; border-bottom:1px solid rgba(255,255,255,.16); }
+.faq-item summary { cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:20px; font-family:var(--font-display); font-size:22px; }
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary::after { content:"+"; flex:0 0 auto; font-size:22px; color:var(--ember); transition:transform .25s; }
+.faq-item[open] summary::after { transform:rotate(45deg); }
+.faq-item p { margin:16px 0 0; max-width:640px; color:var(--muted); font-size:14px; line-height:1.75; }
+.faq-list + .text-link { margin-top:38px; }
+
 /* Story */
 .story { position:relative; height:450vh; }
 .story-sticky { position:sticky; top:0; height:100vh; overflow:hidden; background:#050403; }
@@ -247,6 +263,8 @@ h2 em { color:var(--ember); font-weight:500; }
   .footer>span,.footer small { justify-self:start; }
   .floating-whatsapp { right:14px; bottom:14px; }
   .floating-whatsapp span { max-width:150px; }
+  .regions-text { font-size:13px; }
+  .faq-item summary { font-size:18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
