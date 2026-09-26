@@ -9,6 +9,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
+// Register before child effects create their scroll animations.
+if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
 const WHATSAPP_PHONE = "5513997302538";
 const INSTAGRAM_URL = "https://instagram.com/gechurrascodomicilio";
 const MESSAGE = "Olá! Vi o trabalho de vocês e gostaria de pedir um orçamento para meu evento.";
@@ -78,7 +81,7 @@ function WhatsAppIcon({ size = 24, className = "" }: { size?: number; className?
 function Brand({ full = false }: { full?: boolean }) {
   return (
     <a href="#inicio" className={`brand${full ? " brand-full" : ""}`} aria-label="G&E Churrasco a Domicílio — início">
-      <Image src="/images/logo-ge-dark.png" alt="G&E Churrasco a Domicílio" width={1536} height={1536} priority={!full} />
+      <Image src="/images/logo-ge-dark.png" alt="G&E Churrasco a Domicílio" width={1536} height={1536} sizes={full ? "138px" : "84px"} />
     </a>
   );
 }
@@ -87,7 +90,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const links = [["Experiência", "#experiencia"], ["Eventos", "#servicos"], ["Galeria", "#galeria"], ["Regiões", "#regioes"], ["Dúvidas", "#duvidas"]];
   return (
-    <motion.header initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: .9, delay: .25 }} className="header">
+    <motion.header initial={false} className="header">
       <Brand />
       <nav className="desktop-nav">
         {links.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
@@ -111,17 +114,17 @@ function Header() {
 function Hero() {
   return (
     <section id="inicio" className="hero">
-      <div className="hero-media parallax-image"><Image src={photos.fire} alt="Carnes grelhando sobre a brasa" fill priority sizes="100vw" /></div>
+      <div className="hero-media parallax-image"><Image src={photos.fire} alt="Carnes grelhando sobre a brasa" fill preload sizes="100vw" /></div>
       <div className="hero-shade" />
       <div className="embers" aria-hidden="true">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ "--i": i } as React.CSSProperties} />)}</div>
       <div className="hero-content container">
         <div className="hero-kicker"><span /> Churrasco a domicílio</div>
-        <h1 aria-label="Churrasco a domicílio em Santos e região.">{["Churrasco", "a", "domicílio", "em", "Santos", "e", "região."].map((word, i) => <span className="hero-word-wrap" key={word}><motion.span initial={{ y: "115%" }} animate={{ y: 0 }} transition={{ duration: .9, delay: .38 + i * .08, ease: [0.16, 1, 0.3, 1] }}>{word}</motion.span></span>)}</h1>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.08 }}>Churrasco completo para aniversários, casamentos, confraternizações e eventos corporativos, preparado na brasa direto no local do seu evento em Santos e Baixada Santista.</motion.p>
-        <motion.div className="hero-actions" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.22 }}>
+        <h1>Churrasco a domicílio em Santos e região.</h1>
+        <p>Churrasco completo para aniversários, casamentos, confraternizações e eventos corporativos, preparado na brasa direto no local do seu evento em Santos e Baixada Santista.</p>
+        <div className="hero-actions">
           <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: .98 }} className="button button-fire" href={whatsappUrl} target="_blank" rel="noreferrer">Quero um orçamento <ArrowRight size={18} /></motion.a>
           <a className="text-link" href="#galeria">Ver nosso trabalho <ArrowDown size={16} /></a>
-        </motion.div>
+        </div>
       </div>
       <div className="hero-index">01 <span /> 10</div>
       <div className="scroll-hint"><span>DESCUBRA</span><i /></div>
@@ -265,10 +268,11 @@ function Count({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     if (!ref.current) return;
-    const tween = gsap.fromTo(ref.current, { textContent: 0 }, { textContent: value, duration: 1.8, snap: { textContent: 1 }, scrollTrigger: { trigger: ref.current, start: "top 88%", once: true } });
-    return () => { tween.kill(); };
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const tween = gsap.fromTo(ref.current, { textContent: 0 }, { textContent: value, immediateRender: false, duration: 1.8, snap: { textContent: 1 }, scrollTrigger: { trigger: ref.current, start: "top 88%", once: true } });
+    return () => { tween.scrollTrigger?.kill(); tween.kill(); };
   }, [value]);
-  return <><span ref={ref}>0</span>{suffix}</>;
+  return <><span ref={ref}>{value}</span>{suffix}</>;
 }
 
 function Numbers() {
@@ -315,7 +319,7 @@ function Footer() {
 export default function Home() {
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
     let rafId = 0;
     const raf = (time: number) => { lenis.raf(time); rafId = requestAnimationFrame(raf); };
@@ -324,7 +328,7 @@ export default function Home() {
       gsap.to(".hero-media", { scale: 1, duration: 2.2, ease: "power2.out" });
       gsap.utils.toArray<HTMLElement>(".parallax-image img").forEach(img => gsap.to(img, { yPercent: 10, ease: "none", scrollTrigger: { trigger: img.parentElement, scrub: true } }));
       gsap.fromTo(".impact-media", { scale: 1.12 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ".impact", start: "top bottom", end: "bottom top", scrub: true } });
-      gsap.utils.toArray<HTMLElement>(".reveal-card").forEach(el => gsap.from(el, { clipPath: "inset(0 0 100% 0)", y: 35, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%" } }));
+      gsap.utils.toArray<HTMLElement>(".reveal-card").forEach(el => gsap.from(el, { y: 35, immediateRender: false, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%", once: true } }));
       story.forEach((_, i) => {
         gsap.set(`.frame-${i}`, { opacity: i === 0 ? 1 : 0 });
         gsap.set(`.word-${i}`, { opacity: i === 0 ? 1 : 0, y: i === 0 ? 0 : 70 });

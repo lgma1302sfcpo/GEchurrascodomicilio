@@ -46,8 +46,6 @@ h2 em { color:var(--ember); font-weight:500; }
 .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:26px; font-size:10px; letter-spacing:.28em; text-transform:uppercase; }
 .hero-kicker span { width:43px; height:1px; background:var(--ember); }
 .hero h1 { max-width:850px; margin:0; font-size:clamp(75px,9.6vw,148px); }
-.hero-word-wrap { display:inline-block; overflow:hidden; padding-right:.18em; padding-bottom:.08em; margin-bottom:-.08em; }
-.hero-word-wrap>span { display:inline-block; }
 .hero p { margin:25px 0 0; font-size:14px; letter-spacing:.13em; text-transform:uppercase; color:#d0c8c0; }
 .hero-actions { display:flex; align-items:center; gap:30px; margin-top:42px; }
 .text-link { display:flex; align-items:center; gap:9px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; border-bottom:1px solid rgba(255,255,255,.45); padding-bottom:5px; }
@@ -113,6 +111,7 @@ h2 em { color:var(--ember); font-weight:500; }
 .story { position:relative; height:450vh; }
 .story-sticky { position:sticky; top:0; height:100vh; overflow:hidden; background:#050403; }
 .story-frame { position:absolute; inset:0; overflow:hidden; }
+.story-frame:not(.frame-0),.story-word:not(.word-0) { opacity:0; }
 .story-backdrop { object-fit:cover; filter:blur(24px) brightness(.42) saturate(.82); transform:scale(1.12); }
 .story-focus { position:absolute; inset:0; width:min(55vw,760px); margin:auto; overflow:hidden; box-shadow:0 0 90px rgba(0,0,0,.42); }
 .story-frame .story-subject { object-fit:contain; }
@@ -203,10 +202,11 @@ h2 em { color:var(--ember); font-weight:500; }
   .brand-full { width:128px; height:128px; }
   .desktop-nav,.nav-cta { display:none; }
   .menu-button { display:block; }
-  .hero { min-height:680px; }
+  .hero { height:auto; min-height:680px; }
   .hero-media img { object-position:61% 50%; }
   .hero-shade { background:linear-gradient(0deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.5) 56%,rgba(0,0,0,.18)); }
-  .hero-content { justify-content:flex-end; padding-bottom:75px; }
+  /* Keep the introduction near the top even in tall crawler viewports. */
+  .hero-content { height:auto; min-height:680px; justify-content:center; padding-top:135px; padding-bottom:75px; }
   .hero h1 { font-size:clamp(69px,20vw,103px); max-width:95%; }
   .hero p { font-size:10px; }
   .hero-actions { width:100%; flex-direction:column; align-items:flex-start; gap:23px; margin-top:30px; }
